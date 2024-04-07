@@ -1,30 +1,12 @@
 from flask import Flask, request
+from flaskext.mysql import MySQL
 from ProductCard import ProductCard, ProductCard_Category, ProductCardList
 import random
 
+mysql = MySQL()
 app = Flask(__name__)
-
-cart = dict[int, ProductCard]
-available_products = ProductCardList()
-
-def get_rand_chrs_cnt(cnt):
-    res = []
-    for i in range(cnt):
-        res.append(chr(random.randint(43, 70)))
-
-    return res
-
-
-def generateRandomProducts():
-    for i in range(random.randint(10,20)):
-        name = ''.join(get_rand_chrs_cnt(i))
-        category = ProductCard_Category[random.randint(1, 4)]
-        description = 'LOH'
-        available_count = random.randint(15, 60)
-
-        product = ProductCard(name=name, category=category, description=description, available_count=available_count)
-        available_products.append(product)
-
+mysql.init_app(app)
+cursor = mysql.get_db().cursor()
 
 @app.route('/')
 def index():
