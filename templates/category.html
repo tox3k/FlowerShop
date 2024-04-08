@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Цветочный магазин</title>
+    <script src="../static/scripts/script.js"></script>
+</head>
+<body>
+
+<header>
+    <div class="header-box">
+        <a href="/"><img src="../static/img/logo.png" style="width: 324px; height: 109px;margin-left: 15px;"></a>
+        <div class="header-address">
+            <p>Наш адрес:&nbsp;&nbsp;&nbsp;&nbsp;ул. Юбилейная д.3</p>
+            <p>График работы:&nbsp;&nbsp;&nbsp;&nbsp;Ежедневно с 8 до 22</p>
+        </div>
+        <p>+7 (987) 654-32-10</p>
+        <button class="cart" onclick="document.location='/cart'"><img src="../static/img/shopping_basket.png" style="width: 91px; height: 91px;margin: 0; padding: 0;"></button>
+    </div>
+</header>
+
+<main>
+
+<section class="pages">
+    <ul>
+        <li><a href="/category/flowers/Розы">Розы</a></li>
+        <li><a href="/category/flowers/Тюльпаны">Тюльпаны</a></li>
+        <li><a href="/category/flowers/Хризантемы">Хризантемы</a></li>
+        <li><a href="/category/Букеты">Букеты</a></li>
+        <li><a href="/category/flowers/Розы 70см">Розы 70см</a></li>
+        <li><a href="/category/Открытки">Открытки</a></li>
+    </ul>
+</section>
+
+<section class="actual">
+<h1>{{title}}</h1>
+{%if products%}
+<div class="cards">
+    {% for product in products %}
+    <div class="card">
+        <img src='{{product[7]}}' class="card-image">
+        <h2>{{product[1]}}</h2>
+        <p class="description">{{product[3]}}</p>
+        <button class="price" onclick="addCart('{{product[0]}}')">{{product[6]}} ₽</button>
+    </div>
+    {% endfor %}
+
+</div>
+{% endif %}
+
+</section>
+
+</main>
+
+<footer>
+
+</footer>
+
+</body>
+
+</html>

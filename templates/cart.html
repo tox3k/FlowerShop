@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Цветочный магазин</title>
+    <script src="../static/scripts/script.js"></script>
+</head>
+<body>
+
+<header>
+    <div class="header-box">
+        <a href="/"><img src="../static/img/logo.png" style="width: 324px; height: 109px;margin-left: 15px;"></a>
+        <div class="header-address">
+            <p>Наш адрес:&nbsp;&nbsp;&nbsp;&nbsp;ул. Юбилейная д.3</p> 
+            <p>График работы:&nbsp;&nbsp;&nbsp;&nbsp;Ежедневно с 8 до 22</p>
+        </div>   
+        <p>+7 (987) 654-32-10</p>
+        <button class="cart"><div style="width: 91px; height: 91px;margin: 0; padding: 0;"></div></button>
+    </div>
+</header>
+
+<main>
+
+<section class="actual">
+<h1>Покупки</h1>
+{%if products%}
+<div class="cards">
+    <ol>
+        {%for prod in products%}
+        <li>{{prod[1][0]}} Кол-во: {{prod[1][7]}}</li>
+        {% endfor %}
+    </ol>
+
+</div>
+{% endif %}
+
+</section>
+
+</main>
+
+<footer>
+
+</footer>
+
+</body>
+
+</html>

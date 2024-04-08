@@ -1,0 +1,190 @@
+@font-face {
+    font-family: "Arkhip";
+    src: url("fonts/arkhip.ttf");
+    }
+
+body {
+color: black;
+font-family: 'Arkhip';
+}
+
+.header-box{
+    height: 150px; 
+    width: auto; 
+    background-color: #FF627E;
+    color: white;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 40px;
+    border-radius: 0 0 30px 30px;
+}
+
+.cart{
+    padding: 0;
+    margin: 0;
+    width: fit-content;
+    height: fit-content;
+    margin-right: 15px;
+    background-color: transparent;
+    outline: none;
+    border: 0;
+}
+
+.cart img:hover{
+    opacity: 0.8;
+}
+
+.cart img:active{
+    opacity: 0.6;
+}
+
+.pages{
+    height: 51px;
+    width: 100%;
+    margin: auto;
+    background-color: #FF6B86;
+    color: white;
+    border-radius: 15px;
+    margin-top: 0;
+}
+
+
+.pages ul{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    list-style-type: none;
+    height: 100%;
+}
+
+.pages li{
+    
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.pages a{
+    background-color: transparent;
+    padding:1em;
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+.pages a:hover{
+    background-color: #FFA2B3;
+}
+
+.pages a:active{
+    background-color: white;
+    color: #FFA2B3;}
+
+section h1{
+    font-size: 48px;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding: 0;
+    width: max-content;
+    display: block;
+    margin-bottom: 70px;
+}
+
+
+section h2{
+    font-size: 40px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    display: block;
+    margin-left: 21px;
+    color: white;
+}
+
+section p{
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-size: 22px;
+    display: block;
+    margin-left: 21px;
+    margin-top: 10px;
+}
+.cards{
+    width: max-content;
+    height: max-content;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    gap: 25px;
+}
+
+.card{
+    width: 340px;
+    height: fit-content;
+    background-color: #EFA1AF;
+    border-radius: 40px;
+    padding-bottom: 0;
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.4);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+}
+
+.card-image{
+    border-radius: 10px;
+    height: 350px;
+    max-width: 272px;
+    margin: 30px 34px;
+    margin-bottom: 0;
+    -webkit-box-shadow: 4px 4px 15px 0px rgba(34, 60, 80, 0.37) inset;
+    -moz-box-shadow: 4px 4px 15px 0px rgba(34, 60, 80, 0.37) inset;
+    box-shadow: 4px 4px 15px 0px rgba(34, 60, 80, 0.37) inset;
+    justify-content: center;
+}
+
+.card:hover{
+    outline: 5px dashed #FF6B86;
+    outline-offset: -5px;
+}
+
+.price{
+    color: white;
+    font-family: 'Arkhip';
+    border: none;
+    display: block;
+    font-size: 25px;
+    background-image: linear-gradient(to right, #FF0000, #FF6B00, #FFE500, #7CFF5B, #6DFFED, #3E3AFF, #9429FF);
+    box-shadow: rgba(0, 0, 0, 0.79) 0px 4px 30px 0px inset;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 22px;
+    margin-top: 10px;
+    justify-self: center;
+    align-self: flex-end;
+    margin-bottom: 15px;
+    margin-right: 15px;
+}
+
+.price:hover{
+    box-shadow: rgba(0, 0, 0, 1) 0px 4px 30px 0px inset;;
+}
+
+.description{
+    padding: 0;
+    color: white;
+    width: 299px;
+    height: 100px;
+    font-size: auto;
+    overflow-wrap: break-word;
+    overflow-y:hidden;
+    text-overflow: ellipsis;
+    margin-left: 21px;
+    hyphens: auto;
+}
