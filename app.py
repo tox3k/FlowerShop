@@ -1,3 +1,5 @@
+import os.path
+
 from flask import *
 import sqlite3 as sq
 
@@ -7,6 +9,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
 actual_categories = {}
 actual_flower_categories = {}
+stylesheet_source = os.path.abspath('static')
 
 
 @app.route('/')
