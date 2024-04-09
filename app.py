@@ -46,15 +46,28 @@ def clear():
     session.pop('cart', None)
     return 'Deleted!'
 
+@app.route('/remove-cart/<int:id>')
+def remove__from_cart_by_id(id):
+    id = str(id)
+    del session['cart'][id]
+    session.modified=True
+    return f'{session["cart"]}'
+
 @app.route('/cart')
 def cart():
     products = []
     if 'cart' in session:
         products = session['cart'].items()
-
+    res = sum(list(prod[1][5] * prod[1][7]for prod in products))
     # return f'Покупки: {products}'
-    return render_template('cart.html', products=products)
+    return render_template('cart.html', products=products, total_sum=res)
 
+@app.route('/decrease-count/<int:id>')
+def decrease_count(id):
+    id = str(id)
+    session['cart'][id] = session['cart'][id][:7] + tuple([session['cart'][id][7] - 1])
+    session.modified=True
+    return ''
 
 @app.route('/category/flowers/<category>')
 def flowers_by_category(category):
@@ -65,7 +78,7 @@ def flowers_by_category(category):
 @app.route('/category/<category>')
 def category(category):
     get_actual_categories()
-    return render_template('category.html', products=get_from_db_by_category(actual_categories[category]))
+    return render_template('category.html', products=get_from_db_by_category(actual_categories[category]), title=category)
 
 def get_actual_categories():
     categories = []

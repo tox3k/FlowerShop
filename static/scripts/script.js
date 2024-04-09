@@ -4,7 +4,46 @@ function addCart(id){
     xhr.send()
 }
 
-	
+async function removeCart(id){
+    let request = '/remove-cart/'+id;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', request);
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(""), 100)
+      });
+      
+    xhr.send();
+    await promise;
+    location.reload(true);
+}
+
+async function increaseCount(id){
+    let request = '/add-cart/'+id;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', request);
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(""), 100)
+      });
+      
+    xhr.send();
+    await promise;
+    location.reload(true);
+}
+
+async function decreaseCount(id){
+    let request = '/decrease-count/'+id;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', request);
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(""), 100)
+      });
+      
+    xhr.send();
+    await promise;
+    console.log('REMOVED')
+    location.reload(true);
+}
+
 function CardTextResize() {
     let cards = document.querySelectorAll('.card');
     cards.forEach((card) => {

@@ -1,0 +1,182 @@
+@font-face {
+    font-family: "Arkhip";
+    src: url("../fonts/arkhip.ttf");
+    }
+
+body {
+color: black;
+font-family: 'Arkhip';
+}
+
+.header-box{
+    height: 150px; 
+    width: auto; 
+    background-color: #FF627E;
+    color: white;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 40px;
+    border-radius: 0 0 30px 30px;
+}
+
+.cart{
+    padding: 0;
+    margin: 0;
+    width: fit-content;
+    height: fit-content;
+    margin-right: 15px;
+    background-color: transparent;
+    outline: none;
+    border: 0;
+}
+
+.cart img:hover{
+    opacity: 0.8;
+}
+
+.cart img:active{
+    opacity: 0.6;
+}
+
+.pages{
+    height: 51px;
+    width: 100%;
+    margin: auto;
+    background-color: #FF6B86;
+    color: white;
+    border-radius: 15px;
+    margin-top: 0;
+}
+
+
+.pages ul{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    list-style-type: none;
+    height: 100%;
+}
+
+.pages li{
+    
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.pages a{
+    background-color: transparent;
+    padding:1em;
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+.pages a:hover{
+    background-color: #FFA2B3;
+}
+
+.pages a:active{
+    background-color: white;
+    color: #FFA2B3;}
+
+section h1{
+    font-size: 48px;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding: 0;
+    width: max-content;
+    display: block;
+    margin-bottom: 70px;
+}
+
+
+section h2{
+    font-size: 40px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    display: block;
+    margin-left: 21px;
+    color: white;
+}
+
+section p{
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-size: 22px;
+    display: block;
+    margin-left: 21px;
+    margin-top: 10px;
+}
+
+.delete_btn{
+    display: block;
+    background: transparent;
+    border: none;
+    background-image: url("http://127.0.0.1:5000/static/img/bin.png");
+    background-size: cover;
+    width: 25px;
+    height: 25px;
+}
+
+li{
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    background-color: #FF627E;
+}
+
+ol{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+tr th:first-child{
+    text-align: start;
+    padding-bottom: 15px;
+}
+
+/* Вторая колонка (Кол-во) */
+tr td:nth-child(2){
+    margin: 0 auto;
+    display: flex;
+    width: 70%;
+    flex-direction: row;
+    align-items:center;
+    justify-content:space-between;
+    gap: 20px;
+}
+
+.prod_cnt{
+    padding: 0;
+    margin: 0;
+}
+
+tr td:nth-child(3){
+    text-align: center;
+    padding-left: 20px;
+}
+
+table{
+    font-size: 20px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.total_sum{
+    font-size: 24px;
+    padding-top: 20px;
+}
+
+th{
+    font-size: 22px;
+}
