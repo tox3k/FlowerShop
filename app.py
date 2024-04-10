@@ -80,6 +80,34 @@ def category(category):
     get_actual_categories()
     return render_template('category.html', products=get_from_db_by_category(actual_categories[category]), title=category)
 
+
+@app.route('/admin-panel')
+def admin_panel():
+    get_actual_categories()
+    get_actual_flower_categories()
+    return render_template('admin.html', categories=actual_categories.keys(), flower_categories=actual_flower_categories.keys())
+
+@app.route('/add-new-product', methods=['POST'])
+def add_new_product():
+    name = request.values['name']
+    get_actual_categories()
+    get_actual_flower_categories()
+    category_id = actual_categories[request.values['category_list']]
+    description = request.values['description']
+    stock = int(request.values['stock'])
+    is_actual = 1 if request.values['is_actual'] == 'on' else 0
+    price = request.values['price']
+    # photo =
+    flower_category = actual_flower_categories[request.values['flower_category']]
+
+    with sq.connect(DATABASE) as con:
+        cur = con.cursor()
+        cur.execute(f'INSERT INTO Flowers(name, category_id, description, stock, is_actual, price, flower_category_id)'
+                    f'VALUES (\'{name}\', {category_id}, \'{description}\', {stock}, {is_actual},{price}, {flower_category})')
+        cur.close()
+        con.commit()
+    return admin_panel()
+
 def get_actual_categories():
     categories = []
     global actual_categories

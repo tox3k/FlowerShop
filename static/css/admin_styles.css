@@ -1,0 +1,12 @@
+form{
+    width: min-content;
+    display: flex;
+    flex-direction: column;
+}
+
+p{
+    margin: 0;
+    padding: 0;
+
+    margin-bottom: 15px;
+}

@@ -4,6 +4,56 @@ function addCart(id){
     xhr.send()
 }
 
+function addNewProduct(){
+    let form = document.querySelector('.add_products form');
+    let name = form.querySelector('.name');
+    let category = form.querySelector('.category_list');
+    let flowerCategory = form.querySelector('.flower_category');
+    let description = form.querySelector('.description');
+    let stock = form.querySelector('.stock');
+    let is_actual = form.querySelector('.is_actual');
+    let price = form.querySelector('.price');
+    let photo = form.querySelector('.photo');
+
+    var data = {
+        name: name.value,
+        category: category.value,
+        flowerCategory: flowerCategory.value,
+        description: description.value,
+        stock: stock.value,
+        is_actual: is_actual.value,
+        price: price.value,
+        photo: photo.value
+
+      };
+      
+      var boundary = String(Math.random()).slice(2);
+      var boundaryMiddle = '--' + boundary + '\r\n';
+      var boundaryLast = '--' + boundary + '--\r\n'
+      
+      var body = ['\r\n'];
+      for (var key in data) {
+        // добавление поля
+        body.push('Content-Disposition: form-data; name="' + key + '"\r\n\r\n' + data[key] + '\r\n');
+      }
+      
+      body = body.join(boundaryMiddle) + boundaryLast;
+      
+
+    let xhr = XMLHttpRequest();
+    xhr.open("POST")
+
+    // console.log(name.value)
+    // console.log(category.value)
+    // console.log(flowerCategory)
+    // console.log(description.value)
+    // console.log(stock.value)
+    // console.log(is_actual.value)
+    // console.log(price.value)
+    // console.log(photo.value)
+
+}
+
 async function removeCart(id){
     let request = '/remove-cart/'+id;
     let xhr = new XMLHttpRequest();
@@ -57,7 +107,7 @@ function CardTextResize() {
         h2.style.wordBreak = "normal";
         for (let subStr of h2Text.split(' ')){
             
-            if (subStr.length > 11){
+            if (subStr.length > 5){
                 h2.style.wordBreak="break-all";
                 containsLongWord = true
                 console.log(subStr + ' ' + containsLongWord)
