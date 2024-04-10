@@ -1,4 +1,6 @@
 import os.path
+import base64
+import threading
 
 from flask import *
 import sqlite3 as sq
@@ -7,6 +9,7 @@ DATABASE = 'flowershop_db.db'
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
+app.config['UPLOAD_FOLDER'] = os.path.abspath('static/media/products')
 actual_categories = {}
 actual_flower_categories = {}
 stylesheet_source = os.path.abspath('static')
@@ -41,51 +44,61 @@ def add_cart(id):
     session.modified = True
     return f'{session["cart"].items()} {str_id in session["cart"]} test'
 
+
 @app.route('/clear-cart')
 def clear():
     session.pop('cart', None)
     return 'Deleted!'
 
+
 @app.route('/remove-cart/<int:id>')
 def remove__from_cart_by_id(id):
     id = str(id)
     del session['cart'][id]
-    session.modified=True
+    session.modified = True
     return f'{session["cart"]}'
+
 
 @app.route('/cart')
 def cart():
     products = []
     if 'cart' in session:
         products = session['cart'].items()
-    res = sum(list(prod[1][5] * prod[1][7]for prod in products))
+    res = sum(list(prod[1][5] * prod[1][7] for prod in products))
     # return f'Покупки: {products}'
     return render_template('cart.html', products=products, total_sum=res)
+
 
 @app.route('/decrease-count/<int:id>')
 def decrease_count(id):
     id = str(id)
     session['cart'][id] = session['cart'][id][:7] + tuple([session['cart'][id][7] - 1])
-    session.modified=True
+    session.modified = True
     return ''
+
 
 @app.route('/category/flowers/<category>')
 def flowers_by_category(category):
     get_actual_flower_categories()
     # return f'{get_from_db_by_flower_category(actual_categories[category])}'
-    return render_template('category.html', products=get_from_db_by_flower_category(actual_flower_categories[category]), title=category)
+    return render_template('category.html', products=get_from_db_by_flower_category(actual_flower_categories[category]),
+                           title=category)
+
 
 @app.route('/category/<category>')
 def category(category):
     get_actual_categories()
-    return render_template('category.html', products=get_from_db_by_category(actual_categories[category]), title=category)
+    return render_template('category.html', products=get_from_db_by_category(actual_categories[category]),
+                           title=category)
 
 
 @app.route('/admin-panel')
 def admin_panel():
     get_actual_categories()
     get_actual_flower_categories()
-    return render_template('admin.html', categories=actual_categories.keys(), flower_categories=actual_flower_categories.keys())
+    return render_template('admin.html', categories=actual_categories.keys(),
+                           flower_categories=actual_flower_categories.keys())
+
 
 @app.route('/add-new-product', methods=['POST'])
 def add_new_product():
@@ -97,16 +110,28 @@ def add_new_product():
     stock = int(request.values['stock'])
     is_actual = 1 if request.values['is_actual'] == 'on' else 0
     price = request.values['price']
-    # photo =
+    photo = request.files['image']
+    photo_dir = os.path.join(app.config['UPLOAD_FOLDER'], photo.filename)
+    photo.save(photo_dir)
     flower_category = actual_flower_categories[request.values['flower_category']]
 
     with sq.connect(DATABASE) as con:
         cur = con.cursor()
-        cur.execute(f'INSERT INTO Flowers(name, category_id, description, stock, is_actual, price, flower_category_id)'
-                    f'VALUES (\'{name}\', {category_id}, \'{description}\', {stock}, {is_actual},{price}, {flower_category})')
+        cur.execute(f'INSERT INTO Flowers(name, category_id, description, stock, is_actual, price, flower_category_id, photo)'
+                    f'VALUES (\'{name}\', {category_id}, \'{description}\', {stock}, {is_actual},{price}, {flower_category}, \'{image_to_bytes(photo_dir)}\')')
+        # cur.execute(f'UPDATE Flowers SET photo=\'{image_to_bytes(photo_dir)})/\')')
         cur.close()
         con.commit()
+    os.remove(photo_dir)
+    # return f'<img src="data:image/png;base64,{image_to_bytes(photo_dir)}">'
     return admin_panel()
+
+
+def image_to_bytes(image_dir):
+    with (open(image_dir, 'rb') as f):
+        data = base64.b64encode(f.read())
+        return str(data)[2:-1]
+
 
 def get_actual_categories():
     categories = []
@@ -119,6 +144,7 @@ def get_actual_categories():
     for cat in categories:
         actual_categories[cat[1]] = cat[0]
 
+
 def get_actual_flower_categories():
     categories = []
     global actual_flower_categories
@@ -129,6 +155,7 @@ def get_actual_flower_categories():
     actual_flower_categories = {}
     for cat in categories:
         actual_flower_categories[cat[1]] = cat[0]
+
 
 def get_from_db_by_flower_category(category_id):
     '''
@@ -142,6 +169,7 @@ def get_from_db_by_flower_category(category_id):
         cur.close()
         return flowers
 
+
 def get_from_db_by_category(category_id):
     '''
     Получение цветов из базы данных по категории
@@ -153,6 +181,7 @@ def get_from_db_by_category(category_id):
         flowers = cur.execute(f'SELECT * FROM Flowers WHERE category_id = {category_id}').fetchall()
         cur.close()
         return flowers
+
 
 def get_from_db_by_id(id) -> tuple:
     with sq.connect(DATABASE) as con:
