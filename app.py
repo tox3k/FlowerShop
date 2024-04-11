@@ -107,7 +107,7 @@ def add_new_product():
     category_id = actual_categories[request.values['category_list']]
     description = request.values['description']
     stock = int(request.values['stock'])
-    is_actual = 1 if request.values['is_actual'] == 'on' else 0
+    is_actual = 1 if 'is_actual' in request.values and request.values['is_actual'] == 'on' else 0
     price = request.values['price']
     photo = request.files['image']
     flower_category = actual_flower_categories[request.values['flower_category']]
