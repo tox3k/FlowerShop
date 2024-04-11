@@ -38,7 +38,7 @@
 <div class="cards">
     {% for flower in actual_flowers %}
     <div class="card">
-        <img src='data:image/png;base64,{{flower[7]}}' class="card-image">
+        <img src='http://127.0.0.1:5000/{{flower[7]}}' class="card-image">
         <div class="card-name-box"><h2>{{flower[1]}}</h2></div>
         <div class="description-box"><p class="description">{{flower[3]}}</p></div>
         <button class="price" onclick="addCart('{{flower[0]}}')">{{flower[6]}} ₽</button>

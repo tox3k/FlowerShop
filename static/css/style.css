@@ -135,18 +135,23 @@ section p{
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 0;
+    position: relative;
 }
 
 .card h2{
+    margin-top: 20px;
     margin-left: 34px;
     max-width: 272px;
     max-height: 70px;
+    line-height: 80%;
 }
 
+
 .card-image{
+    object-fit: cover;
     border-radius: 10px;
-    height: 350px;
-    max-width: 272px;
+    height: 300px;
+    width: 272px;
     margin: 30px 34px;
     margin-bottom: 0;
     -webkit-box-shadow: 4px 4px 15px 0px rgba(34, 60, 80, 0.37) inset;
@@ -171,13 +176,12 @@ section p{
     width: fit-content;
     padding: 10px;
     border-radius: 22px;
-    margin-top: 10px;
     justify-self: center;
     align-self: flex-end;
-    margin-bottom: 15px;
-    margin-right: 15px;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
 }
-
 .price:hover{
     box-shadow: rgba(0, 0, 0, 1) 0px 4px 30px 0px inset;;
 }

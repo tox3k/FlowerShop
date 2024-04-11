@@ -1,7 +1,5 @@
 import os.path
-import base64
-import threading
-
+from slugify import slugify
 from flask import *
 import sqlite3 as sq
 
@@ -9,7 +7,8 @@ DATABASE = 'flowershop_db.db'
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
-app.config['UPLOAD_FOLDER'] = os.path.abspath('static/media/products')
+app.config['UPLOAD_FOLDER'] = 'static/media/products'
+app.config['SESSION_TYPE'] = 'filesystem'
 actual_categories = {}
 actual_flower_categories = {}
 stylesheet_source = os.path.abspath('static')
@@ -111,27 +110,19 @@ def add_new_product():
     is_actual = 1 if request.values['is_actual'] == 'on' else 0
     price = request.values['price']
     photo = request.files['image']
-    photo_dir = os.path.join(app.config['UPLOAD_FOLDER'], photo.filename)
-    photo.save(photo_dir)
     flower_category = actual_flower_categories[request.values['flower_category']]
-
+    slug = slugify(name)
     with sq.connect(DATABASE) as con:
         cur = con.cursor()
+        photo_dir = os.path.join(app.config['UPLOAD_FOLDER'], f'{cur.execute("SELECT COUNT(last_insert_rowid()) FROM Flowers").fetchone()[0] + 1}_' + slug + '.png')
+        photo.save(photo_dir)
         cur.execute(f'INSERT INTO Flowers(name, category_id, description, stock, is_actual, price, flower_category_id, photo)'
-                    f'VALUES (\'{name}\', {category_id}, \'{description}\', {stock}, {is_actual},{price}, {flower_category}, \'{image_to_bytes(photo_dir)}\')')
+                    f'VALUES (\'{name}\', {category_id}, \'{description}\', {stock}, {is_actual},{price}, {flower_category}, \'{photo_dir}\')')
         # cur.execute(f'UPDATE Flowers SET photo=\'{image_to_bytes(photo_dir)})/\')')
         cur.close()
         con.commit()
-    os.remove(photo_dir)
     # return f'<img src="data:image/png;base64,{image_to_bytes(photo_dir)}">'
     return admin_panel()
-
-
-def image_to_bytes(image_dir):
-    with (open(image_dir, 'rb') as f):
-        data = base64.b64encode(f.read())
-        return str(data)[2:-1]
-
 
 def get_actual_categories():
     categories = []
