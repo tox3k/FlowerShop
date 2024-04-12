@@ -106,7 +106,11 @@ function CardTextResize() {
         let containsLongWord = false;
         h2.style.wordBreak = "normal";
         if (h2Text.split(' ').length < 3){
-            h2.style.fontSize = Math.ceil(h2Box.clientWidth / h2Text.length * 1.2) + "px";
+            if (h2Text.split(' ').length == 1)
+                h2.style.fontSize = Math.ceil(h2Box.clientWidth / h2Text.length * 1.2) + "px";
+            else{
+                h2.style.fontSize = Math.ceil(h2Box.clientWidth * 2 / h2Text.length) + "px";
+            }
         }
         else{
             for (let subStr of h2Text.split(' ')){

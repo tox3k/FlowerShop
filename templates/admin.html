@@ -2,37 +2,32 @@
 <html>
     <head>
         <link rel="stylesheet" href="http://127.0.0.1:5000/static/css/admin_styles.css">
+        <!-- <link rel="stylesheet" href="http://127.0.0.1:5500/static/css/admin_styles.css"> -->
         <script src="http://127.0.0.1:5000/static/scripts/script.js"></script>
     </head>
 
     <body>
-        <section class="add_products">
-             <form method=post enctype="multipart/form-data" action="/add-new-product">
-                <p>Название товара: <input type="text" name="name"></p>
-                <p>
-                    Категория товара<br>
-                    <select name="category_list">
-                    {%for cat in categories%}
-                    <option>{{cat}}</option>
-                    {% endfor %}
-                </select>
-                </p>
-                <p>
-                    Вид цветов<br>
-                <select name="flower_category">
-                    {% for cat in flower_categories %}
-                    <option>{{cat}}</option>
-                    {% endfor %}
-                </select>
-                </p>
-                <p> Описание товара<textarea type="text" name="description"></textarea></p>
-                <p>Остаток товара<input type="number" name="stock"></p>
-                <p>Актуальное (на главной странице сайта)<input type="checkbox" name="is_actual"></p>
-                <p> Цена<input type="number" name="price"></p>
-                <input type=file accept="image/*" name="image" value="Выбрать фото">
-                <input type="submit" value="Добавить товар">
-            </form>
-        </section>
-       
+        <header>
+            <h1>ПАНЕЛЬ АДМИНИСТРАТОРА</h1>
+            <div class="admin_sections">
+                <div class="delimeter"></div>
+                <a href="http://127.0.0.1:5000/add-new-product" target="iframe" class="admin_section">
+                    ДОБАВЛЕНИЕ ТОВАРОВ
+                </a>
+                <div class="delimeter"></div>
+                <a href="edit_products.html" target="iframe" class="admin_section">
+                    УПРАВЛЕНИЕ ТОВАРАМИ
+                </a>
+                <div class="delimeter"></div>
+                <a href="orders.html" target="iframe" class="admin_section">
+                    ЗАКАЗЫ
+                </a>
+                <div class="delimeter"></div>
+            </div>
+        </header>
+
+        <main>
+            <iframe src="http://127.0.0.1:5000/add-new-product" name="iframe"></iframe>
+        </main>
     </body>
 </html>

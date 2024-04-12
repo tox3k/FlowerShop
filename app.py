@@ -99,30 +99,73 @@ def admin_panel():
                            flower_categories=actual_flower_categories.keys())
 
 
-@app.route('/add-new-product', methods=['POST'])
+@app.route('/add-new-product', methods=['POST', "GET"])
 def add_new_product():
-    name = request.values['name']
     get_actual_categories()
     get_actual_flower_categories()
-    category_id = actual_categories[request.values['category_list']]
-    description = request.values['description']
-    stock = int(request.values['stock'])
-    is_actual = 1 if 'is_actual' in request.values and request.values['is_actual'] == 'on' else 0
-    price = request.values['price']
-    photo = request.files['image']
-    flower_category = actual_flower_categories[request.values['flower_category']]
-    slug = slugify(name)
-    with sq.connect(DATABASE) as con:
-        cur = con.cursor()
-        photo_dir = os.path.join(app.config['UPLOAD_FOLDER'], f'{cur.execute("SELECT COUNT(last_insert_rowid()) FROM Flowers").fetchone()[0] + 1}_' + slug + '.png')
-        photo.save(photo_dir)
-        cur.execute(f'INSERT INTO Flowers(name, category_id, description, stock, is_actual, price, flower_category_id, photo)'
-                    f'VALUES (\'{name}\', {category_id}, \'{description}\', {stock}, {is_actual},{price}, {flower_category}, \'{photo_dir}\')')
-        # cur.execute(f'UPDATE Flowers SET photo=\'{image_to_bytes(photo_dir)})/\')')
-        cur.close()
-        con.commit()
-    # return f'<img src="data:image/png;base64,{image_to_bytes(photo_dir)}">'
-    return admin_panel()
+    if request.method == 'POST':
+        if len(list(request.values.items())) > 1:
+            name = request.values['name']
+            get_actual_categories()
+            get_actual_flower_categories()
+            category_id = actual_categories[request.values['category_list']]
+            description = request.values['description']
+            stock = int(request.values['stock'])
+            is_actual = 1 if 'is_actual' in request.values and request.values['is_actual'] == 'on' else 0
+            price = request.values['price']
+            photo = request.files['image']
+            flower_category = actual_flower_categories[request.values['flower_category']]
+            slug = slugify(name)
+            with sq.connect(DATABASE) as con:
+                cur = con.cursor()
+                photo_dir = os.path.join(app.config['UPLOAD_FOLDER'], f'{cur.execute("SELECT COUNT(last_insert_rowid()) FROM Flowers").fetchone()[0] + 1}_' + slug + '.png')
+                photo.save(photo_dir)
+                cur.execute(f'INSERT INTO Flowers(name, category_id, description, stock, is_actual, price, flower_category_id, photo)'
+                            f'VALUES (\'{name}\', {category_id}, \'{description}\', {stock}, {is_actual},{price}, {flower_category}, \'{photo_dir}\')')
+                # cur.execute(f'UPDATE Flowers SET photo=\'{image_to_bytes(photo_dir)})/\')')
+                cur.close()
+                con.commit()
+            # return f'<img src="data:image/png;base64,{image_to_bytes(photo_dir)}">'
+            return admin_panel()
+
+        elif 'category_name' in request.values:
+            status = ''
+            cat_name = request.values['category_name'].capitalize()
+            if cat_name in actual_categories:
+                status = 'Категория уже существует \ Придумайте другое название'
+            else:
+                with sq.connect(DATABASE) as con:
+                    cur = con.cursor()
+                    cur.execute(f"INSERT INTO Categories(name) VALUES ('{cat_name}')")
+                    con.commit()
+                    cur.close()
+                status = 'Категория успешно добавлена'
+
+            return render_template('add_products.html', categories=actual_categories.keys(),
+                               flower_categories=actual_flower_categories.keys(), category_request_status=f'{status}')
+
+        elif 'flower_category_name' in request.values:
+            status = ''
+            cat_name = request.values['flower_category_name'].capitalize()
+            if cat_name in actual_flower_categories:
+                status = 'Разновидность уже существует \ Придумайте другое название'
+            else:
+                with sq.connect(DATABASE) as con:
+                    cur = con.cursor()
+                    cur.execute(f"INSERT INTO FlowerCategory(name) VALUES ('{cat_name}')")
+                    con.commit()
+                    cur.close()
+                status = 'Категория успешно добавлена'
+
+            return render_template('add_products.html', categories=actual_categories.keys(),
+                                   flower_categories=actual_flower_categories.keys(),
+                                   flower_category_request_status=f'{status}')
+
+
+    if request.method == 'GET':
+
+        return render_template('add_products.html', categories=actual_categories.keys(),
+                               flower_categories=actual_flower_categories.keys())
 
 def get_actual_categories():
     categories = []
@@ -163,7 +206,7 @@ def get_from_db_by_flower_category(category_id):
 
 def get_from_db_by_category(category_id):
     '''
-    Получение цветов из базы данных по категории
+    Получение товаров из базы данных по категории
     :param category_id: id категории можно получить из глобальной переменной actual_categories (ключ - имя категории)
     :return:
     '''

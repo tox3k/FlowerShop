@@ -1,0 +1,54 @@
+<head>
+<link rel="stylesheet" href="http://127.0.0.1:5000/static/css/add_product_style.css">
+</head>
+<body>
+    <section class="add_products">
+        <h2>Добавить новый товар</h2>
+    <form method=post enctype="multipart/form-data" action="/add-new-product">
+       <p>Название товара: <input required type="text" name="name"></p>
+       <p>
+           Категория товара<br>
+           <select required name="category_list">
+           {%for cat in categories%}
+           <option>{{cat}}</option>
+           {% endfor %}
+       </select>
+       </p>
+       <p>
+           Вид цветов<br>
+       <select required name="flower_category">
+           {% for cat in flower_categories %}
+           <option>{{cat}}</option>
+           {% endfor %}
+       </select>
+       </p>
+       <p> Описание товара<textarea type="text" name="description"></textarea></p>
+       <p>Остаток товара<input required type="number" name="stock"></p>
+       <p>Актуальное (на главной странице сайта)<input type="checkbox" name="is_actual"></p>
+       <p> Цена<input required type="number" name="price"></p>
+       <input required type=file accept="image/*" name="image" value="Выбрать фото">
+       <input type="submit" value="Добавить товар">
+   </form>
+</section>
+
+<section class="add_category">
+    <h2>Добавить новую категорию товаров</h2>
+    <form method=post enctype="multipart/form-data" action="/add-new-product">
+        <p>Название категории: <input required type="text" name="category_name"></p>
+        <input type="submit" value="Добавить категорию">
+        {% if category_request_status %}
+        <p><b><i>{{category_request_status}}</i></b></p>
+        {% endif %}
+    </form>
+</section>
+<section class="add_flower_category">
+    <h2>Добавить разновидность цветов</h2>
+    <form method=post enctype="multipart/form-data" action="/add-new-product">
+        <p>Название разновидности цветов: <input type="text" name="flower_category_name"></p>
+        <input type="submit" value="Добавить разновидность">
+        {% if flower_category_request_status %}
+        <p><b><i>{{flower_category_request_status}}</i></b></p>
+        {% endif %}
+    </form>
+</section>
+</body>

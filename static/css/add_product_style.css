@@ -1,0 +1,23 @@
+body{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.add_products{
+    border: 2px solid cadetblue;
+    width: 30%;
+}
+
+
+.add_category{
+    border: 2px solid cadetblue;
+    width: 30%;
+}
+
+.add_flower_category{
+    border: 2px solid cadetblue;
+    width: 30%;
+}
