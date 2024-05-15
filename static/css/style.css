@@ -171,8 +171,8 @@ section p{
     border: none;
     display: block;
     font-size: 25px;
-    background-image: linear-gradient(to right, #FF0000, #FF6B00, #FFE500, #7CFF5B, #6DFFED, #3E3AFF, #9429FF);
-    box-shadow: rgba(0, 0, 0, 0.79) 0px 4px 30px 0px inset;
+    background-color: #FF627E;
+    box-shadow: rgba(0, 0, 0, 0.79) 0px 4px 20px 0px inset;
     width: fit-content;
     padding: 10px;
     border-radius: 22px;
