@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <div style="display: flex; flex-wrap: wrap; flex-direction: row; gap: 10px;">
+        {% for product in products %}
+        <div style="border: 1px solid black; width: 350px; height: 400px; padding: 10px;">
+            <h2>{{product.name}}</h2>
+            <img style="height: 150px" src="http://127.0.0.1:5000/{{product.image}}">
+            <p>{{product.count}}</p>
+            <p>{{product.description}}</p>
+            <p>Цена: {{product.price}}</p>
+            <form action="http://127.0.0.1:5000/remove-product/{{product.id}}" method="get"><button>Удалить товар</button></form>
+        </div>
+        {% endfor %}
+    </div>
+</html>

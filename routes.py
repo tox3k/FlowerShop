@@ -1,8 +1,8 @@
 import os
 from slugify import slugify
 from services import *
-from flask import render_template, session, request, Flask
-
+from flask import render_template, session, request, Flask, render_template_string
+from product import Product
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
 app.config['UPLOAD_FOLDER'] = 'static/media/products'
@@ -159,6 +159,33 @@ def add_new_product():
         return render_template('add_products.html', categories=actual_categories.keys(),
                                flower_categories=actual_flower_categories.keys())
 
+@app.route('/manage-products', methods=['GET', 'POST'])
+def manage_product():
+    if request.method == 'GET':
+        with sq.Connection(DATABASE) as con:
+            cur = con.cursor()
+            products = list(Product(*args) for args in cur.execute('SELECT id, name, description, price, stock, photo FROM Flowers').fetchall())
+        
+        return render_template('manage_products.html', products=products)
+@app.route('/remove-product/<int:id>')
+def remove_product(id):
+    id = int(id)
+    with sq.Connection(DATABASE) as con:
+        cur = con.cursor()
+        cur.execute(f'DELETE FROM Flowers WHERE id={id}')
+    
+    return manage_product()
+
+@app.route('/edit-price/<int:id>/<int:new_price>')
+def edit_price(id, new_price):
+    id = int(id)
+    new_price = int(new_price)
+    with sq.Connection(DATABASE) as con:
+            cur = con.cursor()
+            old_price = cur.execute(f'SELECT price FROM Flowers WHERE id={id}').fetchone()
+            if old_price[0] != new_price:
+                cur.execute(f'UPDATE Flowers SET price={new_price} WHERE id={id}')
+    return manage_product()
 
 @app.route('/admin-panel')
 def admin_panel():
