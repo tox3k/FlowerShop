@@ -107,6 +107,8 @@ def add_new_product():
                 cur.close()
                 con.commit()
             # return f'<img src="data:image/png;base64,{image_to_bytes(photo_dir)}">'
+            actual_categories = get_actual_categories()
+            actual_flower_categories = get_actual_flower_categories()
             return render_template('add_products.html', categories=actual_categories.keys(),
                                    flower_categories=actual_flower_categories.keys())
 
@@ -122,7 +124,8 @@ def add_new_product():
                     con.commit()
                     cur.close()
                 status = 'Категория успешно добавлена'
-
+            actual_categories = get_actual_categories()
+            actual_flower_categories = get_actual_flower_categories()
             return render_template('add_products.html', categories=actual_categories.keys(),
                                    flower_categories=actual_flower_categories.keys(),
                                    category_request_status=f'{status}')
@@ -139,7 +142,9 @@ def add_new_product():
                     con.commit()
                     cur.close()
                 status = 'Категория успешно добавлена'
-
+            
+            actual_categories = get_actual_categories()
+            actual_flower_categories = get_actual_flower_categories()
             return render_template('add_products.html', categories=actual_categories.keys(),
                                    flower_categories=actual_flower_categories.keys(),
                                    flower_category_request_status=f'{status}')
