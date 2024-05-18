@@ -13,14 +13,20 @@ stylesheet_source = os.path.abspath('static')
 
 @app.route('/')
 def index():
-    return render_template('index.html', actual_flowers=get_actual_flowers())
+    with sq.Connection('flowershop_db.db') as con:
+        cur = con.cursor()
+        cats = cur.execute('SELECT name FROM Categories')
+    return render_template('index.html', actual_flowers=get_actual_flowers(), cats=cats)
 
 
 @app.route('/category/<category>')
 def category(category):
     categories = get_actual_categories()
+    with sq.Connection('flowershop_db.db') as con:
+        cur = con.cursor()
+        cats = cur.execute('SELECT name FROM Categories')
     return render_template('category.html', products=get_from_db_by_category(categories[category]),
-                           title=category)
+                           title=category, cats=cats)
 
 
 @app.route('/category/flowers/<category>')

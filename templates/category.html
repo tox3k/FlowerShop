@@ -24,12 +24,9 @@
 
 <section class="pages">
     <ul>
-        <li><a href="/category/flowers/Розы">Розы</a></li>
-        <li><a href="/category/flowers/Тюльпаны">Тюльпаны</a></li>
-        <li><a href="/category/flowers/Хризантемы">Хризантемы</a></li>
-        <li><a href="/category/Букеты">Букеты</a></li>
-        <li><a href="/category/flowers/Розы 70см">Розы 70см</a></li>
-        <li><a href="/category/Открытки">Открытки</a></li>
+        {% for cat in cats %}
+        <li><a href="/category/{{cat[0]}}">{{cat[0]}}</a></li>
+        {% endfor %}
     </ul>
 </section>
 

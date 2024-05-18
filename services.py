@@ -28,6 +28,8 @@ def get_actual_flower_categories():
         categories = cur.execute('SELECT * FROM FlowerCategory').fetchall()
         cur.close()
     actual_flower_categories = {}
+
+
     for cat in categories:
         actual_flower_categories[cat[1]] = cat[0]
 
