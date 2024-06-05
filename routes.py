@@ -1,8 +1,9 @@
 import os
 from slugify import slugify
 from services import *
-from flask import render_template, session, request, Flask, render_template_string
+from flask import render_template, session, request, Flask, render_template_string, Response, redirect
 from product import Product
+import datetime
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123'
 app.config['UPLOAD_FOLDER'] = 'static/media/products'
@@ -36,16 +37,35 @@ def flowers_by_category(category):
     return render_template('category.html', products=get_from_db_by_flower_category(categories[category]),
                            title=category)
 
+@app.route('/orders')
+def orders():
+    return render_template('orders.html', orders = get_orders())
 
 @app.route('/cart')
 def cart():
     products = []
     if 'cart' in session:
         products = session['cart'].items()
+        print(products)
     res = sum(list(prod[1][5] * prod[1][7] for prod in products))
     # return f'Покупки: {products}'
     return render_template('cart.html', products=products, total_sum=res)
 
+@app.route('/make-order', methods=['POST'])
+def make_order():
+    products = []
+    if 'cart' in session:
+        products = session['cart'].items()
+        res = sum(list(prod[1][5] * prod[1][7] for prod in products))
+        save_order(products, res, request.form['client_name'], request.form['phone'], datetime.datetime.now().strftime('%H:%M:%S / %d-%m-%Y'))
+    
+    clear()
+    return redirect('/cart')
+
+@app.route('/end-order/<int:id>')
+def end_order(id):
+    close_order(id)
+    return redirect('/orders')
 
 @app.route('/add-cart/<int:id>')
 def add_cart(id):

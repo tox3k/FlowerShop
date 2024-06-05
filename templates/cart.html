@@ -38,8 +38,13 @@
         
         {% endfor %}
         <tr><td class="total_sum">Сумма покупок:</td><td></td><td><div class="total_sum">{{total_sum}} руб</div></td><td></td></tr>
+        
     </table>
-
+    <form method="post" action="/make-order" style="margin-left: 1280px; margin-top: 100px;">
+        <input name="client_name" placeholder="Введите ФИО" required>
+        <input name="phone" placeholder="Номер телефона" required>
+        <button>Оформить заказ</button>
+    </form>
 </div>
 {%else%}
 <div style="width: fit-content;align-items: center; justify-items: center; margin: 0 auto;"><h2 class="title_empty_cart">Ваша корзина пуста!</h2></div>

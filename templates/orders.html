@@ -1,1 +1,22 @@
-<h1>ТУТ МЫ СМОТРИМ НА ЗАКАЗЫ</h1>
+<!DOCTYPE html>
+<div style="display: flex; flex-direction: row; gap: 10px;">
+        {% for order in orders %}
+    <div class="order_wrapper" style="display: block;width: fit-content; padding: 10px; background-color: rgba(86, 165, 165, 0.747); border-radius: 15px;">
+        <h3>Имя клиента: {{order.client}}</h3>
+        <h3>Номер клиента: {{order.phone}}</h3>
+        <h4>Сумма заказа: {{order.price}} рублей</h4>
+        <h4>Время заказа:{{order.timestamp}}</h4>
+        
+        <div class="product_wrapper" style="display: block;width: fit-content; padding: 10px; background-color: rgba(114, 207, 207, 0.747); border-radius: 15px; padding-top: 3px;">
+            <h4>Состав заказа:</h4>
+            {% for product in order.products %}
+                <p>{{product.name}} ----------------- Количество: {{product.count}}</p>
+            {% endfor %}
+        </div>
+        <form action="/end-order/{{order.id}}">
+            <button>Заказ завершен</button>
+        </form>
+    </div>
+    {% endfor %}
+    
+</div>
